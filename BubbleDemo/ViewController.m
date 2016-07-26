@@ -22,11 +22,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     imageArray = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8"];
-    
+        
+    [self addGesture];
+
     [self createBubble];
     timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(createBubble) userInfo:nil repeats:YES];
     
-    [self addGesture];
 }
 
 #pragma mark - 手势
