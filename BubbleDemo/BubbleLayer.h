@@ -9,8 +9,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import <UIKit/UIKit.h>
 
-typedef void(^TapAction)();
-
 @interface BubbleLayer : CALayer
 
 - (instancetype)initWithPosition:(CGPoint)position;

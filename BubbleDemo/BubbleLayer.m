@@ -15,17 +15,10 @@
     
     //中心点
     CGPoint bubblePosition;
-    
-    //父视图
-    UIView *superView;
-    
-    //点击事件
-    TapAction tapBlcok;
 }
 
 - (instancetype)initWithPosition:(CGPoint)position {
     if (self = [super init]) {
-        //容易计算
         self.masksToBounds = YES;
         bubblePosition = position;
     }
@@ -58,25 +51,9 @@
 
 #pragma mark - 添加
 - (void)addToView:(UIView *)view {
-    superView = view;
     [view.layer addSublayer:self];
 }
 
-#pragma mark - 手势
-- (void)addGestureToView:(UIView *)view {
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
-    [view addGestureRecognizer:tap];
-}
-
-- (void)tap:(UITapGestureRecognizer *)tapGesture {
-    CGPoint touch = [tapGesture locationInView:superView];
-    
-    if ([self.presentationLayer hitTest:touch]) {
-        if (tapBlcok) {
-            tapBlcok();
-        }
-    }
-}
 
 
 #pragma mark - 移动(设置时间间隔)
@@ -125,7 +102,7 @@
     CAKeyframeAnimation *keyBig = [CAKeyframeAnimation animationWithKeyPath:@"bounds"];
     //2.设置关键帧，这里有四个关键帧
     NSValue *key1=[NSValue valueWithCGRect:layer.bounds];//对于关键帧动画初始值不能省略
-    NSValue *key2=[NSValue valueWithCGRect:CGRectMake(0, 0, layer.bounds.size.width + 10, layer.bounds.size.height + 10)];
+    NSValue *key2=[NSValue valueWithCGRect:CGRectMake(0, 0, layer.bounds.size.width + 15, layer.bounds.size.height + 15)];
     keyBig.values=@[key1,key2];
     //设置其他属性
     keyBig.duration = time;
