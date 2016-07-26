@@ -11,7 +11,7 @@
 
 @interface BubbleLayer : CALayer
 
-- (instancetype)initWithPosition:(CGPoint)position;
+- (instancetype)initLayer;
 - (void)setImage:(UIImage *)image andHeight:(CGFloat)height;
 
 

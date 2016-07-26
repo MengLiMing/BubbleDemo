@@ -12,15 +12,11 @@
     //
     UIImage *bubbleImage;
     CGFloat bubbleHeight;
-    
-    //中心点
-    CGPoint bubblePosition;
 }
 
-- (instancetype)initWithPosition:(CGPoint)position {
+- (instancetype)initLayer{
     if (self = [super init]) {
         self.masksToBounds = YES;
-        bubblePosition = position;
     }
     return self;
 }
@@ -40,8 +36,7 @@
 - (void)setImage:(UIImage *)image andHeight:(CGFloat)height {
     bubbleImage = image;
     bubbleHeight = height;
-    self.frame = CGRectMake(-height, -height, height, height);
-    self.position = bubblePosition;
+    self.bounds = CGRectMake(0, 0, height, height);
     self.cornerRadius = height/2;
     
 //    //解决右上显示，但是可能会让变大动画看着不协调，动画是以锚点为中心的默认(.5,.5)
@@ -79,7 +74,7 @@
     //存储当前位置在动画结束后使用
     [animation setValue:[NSValue valueWithCGPoint:to] forKeyPath:@"KBubbleAnimationLocation"];
 
-    //3.添加动画到图层，注意key相当于给动画进行命名，以后获得该动画时可以使用此名称获取
+    //添加动画到图层，注意key相当于给动画进行命名，以后获得该动画时可以使用此名称获取
     [self addAnimation:animation forKey:@"KBubbleAnimation_Move"];
 }
 
@@ -100,15 +95,12 @@
 #pragma mark - 变大消失
 + (void)biggerAndDismiss:(CALayer *)layer time:(CGFloat)time{
     CAKeyframeAnimation *keyBig = [CAKeyframeAnimation animationWithKeyPath:@"bounds"];
-    //2.设置关键帧，这里有四个关键帧
-    NSValue *key1=[NSValue valueWithCGRect:layer.bounds];//对于关键帧动画初始值不能省略
+    NSValue *key1=[NSValue valueWithCGRect:layer.bounds];
     NSValue *key2=[NSValue valueWithCGRect:CGRectMake(0, 0, layer.bounds.size.width + 15, layer.bounds.size.height + 15)];
     keyBig.values=@[key1,key2];
     //设置其他属性
     keyBig.duration = time;
     keyBig.beginTime = CACurrentMediaTime();
-    
-    //3.添加动画到图层，添加动画后就会执行动画
     [layer addAnimation:keyBig forKey:@"KCKeyBoundsAnimation"];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(time/2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

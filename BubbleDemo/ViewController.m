@@ -24,7 +24,7 @@
     imageArray = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8"];
     
     [self createBubble];
-    timer = [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(createBubble) userInfo:nil repeats:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(createBubble) userInfo:nil repeats:YES];
     
     [self addGesture];
 }
@@ -50,8 +50,10 @@
 
 
 - (void)createBubble {
+    //一次生成2个
     for (NSInteger i = 0; i < 2; i++) {
-        BubbleLayer *layer = [[BubbleLayer alloc] initWithPosition:self.view.center];
+
+        BubbleLayer *layer = [[BubbleLayer alloc] initLayer];
         [layer setImage:[self bubbleImage] andHeight:80];
         [layer addToView:self.view];
         
